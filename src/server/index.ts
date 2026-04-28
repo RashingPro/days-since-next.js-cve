@@ -1,8 +1,9 @@
 import { ADVISORY_FETCH_URL, GITHUB_API_BASE_URL } from "@/constants";
 
-export async function getTime() {
+export async function getTime(timeout?: number) {
     const response = await fetch(GITHUB_API_BASE_URL + ADVISORY_FETCH_URL + "?per_page=1", {
-        next: { revalidate: 60 * 60 * 12 }
+        next: { revalidate: 60 * 60 * 12 },
+        signal: timeout ? AbortSignal.timeout(timeout) : undefined
     });
     if (!response.ok) throw new Error(`GitHub API fetch error (status: ${response.status})`);
     const json = await response.json();

@@ -17,7 +17,7 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
     let title = "Days without new Next.js vulnerability";
     try {
-        const time = await getTime();
+        const time = await getTime(3000);
         const days = Math.ceil(time / (1000 * 60 * 60 * 24));
         title = `${days} ${days > 1 ? "days" : "day"} without Next.js vulnerability`;
     } catch (e) {
