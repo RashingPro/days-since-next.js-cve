@@ -1,5 +1,6 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import { PropsWithChildren } from "react";
+import { getTime } from "@/server";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -16,17 +17,9 @@ const geistMono = Geist_Mono({
 export async function generateMetadata(): Promise<Metadata> {
     let title = "Days without new Next.js vulnerability";
     try {
-        const response = await fetch(process.env.BASE_URL + "/api/time", {
-            method: "GET",
-            signal: AbortSignal.timeout(3000)
-        });
-        if (response.ok) {
-            const data = await response.json();
-            if (typeof data.time === "number") {
-                const days = Math.ceil(data.time / (1000 * 60 * 60 * 24));
-                title = `${days} ${days > 1 ? "days" : "day"} without Next.js vulnerability`;
-            }
-        }
+        const time = await getTime();
+        const days = Math.ceil(time / (1000 * 60 * 60 * 24));
+        title = `${days} ${days > 1 ? "days" : "day"} without Next.js vulnerability`;
     } catch (e) {
         console.error("Error in generateMetadata:", e);
     } finally {
