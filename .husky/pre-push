@@ -1,0 +1,3 @@
+#!/usr/bin/env sh
+npm run knip
+npm run build
